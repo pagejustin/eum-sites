@@ -7,4 +7,4 @@
 5. Create an Automation Account
 6. Upload the Runbooks from EUM's fork to Azure
 7. Run the ARM Template Deployer
-8. Run the Arm Template Generator (recieved som errors)
+8. Run the Arm Template Generator (recieved some errors)
