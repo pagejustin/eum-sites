@@ -1,0 +1,65 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "automationAccounts_BCDevEUMTeamCreator_name": {
+            "type": "String"
+        },
+        "Divisions List GUID": {
+            "defaultValue": "0417f0ae-a38a-4041-905a-53e0d8831a90",
+            "type": "String"
+        },
+        "Site Address": {
+            "defaultValue": "https://buncombe1.sharepoint.com/sites/Landing",
+            "type": "String"
+        },
+        "Sites List GUID": {
+            "defaultValue": "67e4cb21-cfeb-4a8a-a505-76c878d211ad",
+            "type": "String"
+        },
+        "AutomationAccountName": {
+            "defaultValue": "teamsdev-siteprovisioning",
+            "type": "String"
+        },
+        "PrimaryDomain": {
+            "defaultValue": "buncombe1.onmicrosoft.com",
+            "type": "String"
+        },
+        "ResourceGroupName": {
+            "defaultValue": "BCDevSites",
+            "type": "String"
+        },
+        "RootURL": {
+            "defaultValue": "https://buncombe1.sharepoint.com/",
+            "type": "String"
+        },
+        "SiteCollectionAdministrator": {
+            "defaultValue": "justin@buncombe1.onmicrosoft.com",
+            "type": "String"
+        },
+        "SiteCollectionRelativeURL": {
+            "defaultValue": "/sites/landing",
+            "type": "String"
+        },
+        "EUMTeamsSPFxApp": {
+            "defaultValue": "4f17d0dc-c36f-44de-91c6-2c4d2ab193ab",
+            "type": "String"
+        }
+    },
+"variables": {},
+    "resources": {
+        "type": "Microsoft.Automation/automationAccounts",
+        "apiVersion": "2020-01-13-preview",
+        "name": "[parameters('automationAccounts_BCDevEUMTeamCreator_name')]",
+        "location": "[resourceGroup().location]",
+        "properties": {
+            "sku": {
+                "name": "Basic"
+            },
+            "encryption": {
+                "keySource": "Microsoft.Automation",
+            "identity": {}
+            }
+        }
+    }
+}

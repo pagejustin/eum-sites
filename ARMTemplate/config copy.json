@@ -1,50 +1,50 @@
 {
-  "SubscriptionId": "71bf8597-7af2-4d75-8b4b-c8b52962d3ad",
-  "TenantId": "a4aee0eb-c9e6-40a2-ac03-95883cd18333",
-  "ResourceGroupName": "BCDevSites",
-  "Location": "East US",
-  "TargetFolder": "C:\\GIT_CLONES\\eum-sites\\Development\\ARMTemplate",
+  "SubscriptionId": "b906693c-5167-4a56-bbf3-b56142ee7219",
+  "TenantId": "64a54bf1-8d0d-4741-a2ae-36eb0bfa4c58",
+  "ResourceGroupName": "EUMSites",
+  "Location": "Canada Central",
+  "TargetFolder": "C:\\Development\\EnvisionIT\\Teams Provisioning\\ARMTemplate",
   "TemplateFilename": "template.json",
   "TemplateParameterFilename": "parameters.json",
   "Parameters": [
     {
       "paramName": "Divisions List GUID",
-      "paramValue": "0417f0ae-a38a-4041-905a-53e0d8831a90",
+      "paramValue": "21b67df9-a804-45ea-9ebc-56ed397b806c",
       "paramAliases": []
     },
     {
       "paramName": "Site Address",
-      "paramValue": "https://buncombe1.sharepoint.com/sites/Landing",
+      "paramValue": "https://envisionitdev.sharepoint.com/sites/Landing",
       "paramAliases": []
     },
     {
       "paramName": "Sites List GUID",
-      "paramValue": "67e4cb21-cfeb-4a8a-a505-76c878d211ad",
+      "paramValue": "35416f1d-f09b-4503-a8ed-106e11c7ea43",
       "paramAliases": []
     },
     {
       "paramName": "AutomationAccountName",
-      "paramValue": "teamsdev-siteprovisioning",
+      "paramValue": "eitdev-siteprovisioning",
       "paramAliases": []
     },
     {
       "paramName": "PrimaryDomain",
-      "paramValue": "buncombe1.onmicrosoft.com",
+      "paramValue": "envisionitdev.onmicrosoft.com",
       "paramAliases": []
     },
     {
       "paramName": "ResourceGroupName",
-      "paramValue": "BCDevSites",
+      "paramValue": "EUMSites",
       "paramAliases": []
     },
     {
       "paramName": "RootURL",
-      "paramValue": "https://buncombe1.sharepoint.com/",
+      "paramValue": "https://envisionitdev.sharepoint.com",
       "paramAliases": []
     },
     {
       "paramName": "SiteCollectionAdministrator",
-      "paramValue": "justin@buncombe1.onmicrosoft.com",
+      "paramValue": "pcarson@envisionitdev.onmicrosoft.com",
       "paramAliases": [ "Operator Email" ]
     },
     {
@@ -53,8 +53,8 @@
       "paramAliases": []
     },
     {
-      "paramName": "EUMTeamsSPFxApp",
-      "paramValue": "4f17d0dc-c36f-44de-91c6-2c4d2ab193ab",
+      "paramName": "TeamsSPFxAppId",
+      "paramValue": "c62c7bd0-0313-4438-895e-a26ac6a97024",
       "paramAliases": []
     }
   ]

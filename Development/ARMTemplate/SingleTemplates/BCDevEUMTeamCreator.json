@@ -1,0 +1,465 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "certificates_AzureRunAsCertificate_base64Value": {
+      "type": "SecureString"
+    },
+    "automationAccounts_BCDevEUMTeamCreator_name": {
+      "type": "String"
+    }
+  },
+  "variables": {},
+  "resources": [
+    {
+      "type": "Microsoft.Automation/automationAccounts",
+      "apiVersion": "2020-01-13-preview",
+      "name": "[parameters('automationAccounts_BCDevEUMTeamCreator_name')]",
+      "location": "eastus",
+      "properties": {
+        "sku": {
+          "name": "Basic"
+        },
+        "encryption": {
+          "keySource": "Microsoft.Automation",
+          "identity": {}
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Automation/automationAccounts/certificates",
+      "apiVersion": "2020-01-13-preview",
+      "name": "[concat(parameters('automationAccounts_BCDevEUMTeamCreator_name'), '/AzureRunAsCertificate')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_BCDevEUMTeamCreator_name'))]"
+      ],
+      "properties": {
+        "description": "This certificate is used to authenticate with the service principal that was automatically created for this account. For details on this service principal and certificate, or to recreate them, go to this account’s Settings. For example usage, see the tutorial runbook in this account.",
+        "isExportable": true,
+        "thumbprint": "DB9A8C179410AE127BA25907F6442E1923D58CBA",
+        "base64Value": "[parameters('certificates_AzureRunAsCertificate_base64Value')]"
+      }
+    },
+    {
+      "type": "Microsoft.Automation/automationAccounts/connections",
+      "apiVersion": "2020-01-13-preview",
+      "name": "[concat(parameters('automationAccounts_BCDevEUMTeamCreator_name'), '/AzureRunAsConnection')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_BCDevEUMTeamCreator_name'))]"
+      ],
+      "properties": {
+        "connectionType": {
+          "name": "AzureServicePrincipal"
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Automation/automationAccounts/connectionTypes",
+      "apiVersion": "2020-01-13-preview",
+      "name": "[concat(parameters('automationAccounts_BCDevEUMTeamCreator_name'), '/Azure')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_BCDevEUMTeamCreator_name'))]"
+      ],
+      "properties": {
+        "isGlobal": true,
+        "fieldDefinitions": {
+          "AutomationCertificateName": {
+            "isEncrypted": false,
+            "isOptional": false,
+            "type": "System.String"
+          },
+          "SubscriptionID": {
+            "isEncrypted": false,
+            "isOptional": false,
+            "type": "System.String"
+          }
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Automation/automationAccounts/connectionTypes",
+      "apiVersion": "2020-01-13-preview",
+      "name": "[concat(parameters('automationAccounts_BCDevEUMTeamCreator_name'), '/AzureClassicCertificate')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_BCDevEUMTeamCreator_name'))]"
+      ],
+      "properties": {
+        "isGlobal": true,
+        "fieldDefinitions": {
+          "SubscriptionName": {
+            "isEncrypted": false,
+            "isOptional": false,
+            "type": "System.String"
+          },
+          "SubscriptionId": {
+            "isEncrypted": false,
+            "isOptional": false,
+            "type": "System.String"
+          },
+          "CertificateAssetName": {
+            "isEncrypted": false,
+            "isOptional": false,
+            "type": "System.String"
+          }
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Automation/automationAccounts/connectionTypes",
+      "apiVersion": "2020-01-13-preview",
+      "name": "[concat(parameters('automationAccounts_BCDevEUMTeamCreator_name'), '/AzureServicePrincipal')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_BCDevEUMTeamCreator_name'))]"
+      ],
+      "properties": {
+        "isGlobal": true,
+        "fieldDefinitions": {
+          "ApplicationId": {
+            "isEncrypted": false,
+            "isOptional": false,
+            "type": "System.String"
+          },
+          "TenantId": {
+            "isEncrypted": false,
+            "isOptional": false,
+            "type": "System.String"
+          },
+          "CertificateThumbprint": {
+            "isEncrypted": false,
+            "isOptional": false,
+            "type": "System.String"
+          },
+          "SubscriptionId": {
+            "isEncrypted": false,
+            "isOptional": false,
+            "type": "System.String"
+          }
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Automation/automationAccounts/modules",
+      "apiVersion": "2020-01-13-preview",
+      "name": "[concat(parameters('automationAccounts_BCDevEUMTeamCreator_name'), '/AuditPolicyDsc')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_BCDevEUMTeamCreator_name'))]"
+      ],
+      "properties": {
+        "contentLink": {}
+      }
+    },
+    {
+      "type": "Microsoft.Automation/automationAccounts/modules",
+      "apiVersion": "2020-01-13-preview",
+      "name": "[concat(parameters('automationAccounts_BCDevEUMTeamCreator_name'), '/Azure')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_BCDevEUMTeamCreator_name'))]"
+      ],
+      "properties": {
+        "contentLink": {}
+      }
+    },
+    {
+      "type": "Microsoft.Automation/automationAccounts/modules",
+      "apiVersion": "2020-01-13-preview",
+      "name": "[concat(parameters('automationAccounts_BCDevEUMTeamCreator_name'), '/Azure.Storage')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_BCDevEUMTeamCreator_name'))]"
+      ],
+      "properties": {
+        "contentLink": {}
+      }
+    },
+    {
+      "type": "Microsoft.Automation/automationAccounts/modules",
+      "apiVersion": "2020-01-13-preview",
+      "name": "[concat(parameters('automationAccounts_BCDevEUMTeamCreator_name'), '/AzureRM.Automation')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_BCDevEUMTeamCreator_name'))]"
+      ],
+      "properties": {
+        "contentLink": {}
+      }
+    },
+    {
+      "type": "Microsoft.Automation/automationAccounts/modules",
+      "apiVersion": "2020-01-13-preview",
+      "name": "[concat(parameters('automationAccounts_BCDevEUMTeamCreator_name'), '/AzureRM.Compute')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_BCDevEUMTeamCreator_name'))]"
+      ],
+      "properties": {
+        "contentLink": {}
+      }
+    },
+    {
+      "type": "Microsoft.Automation/automationAccounts/modules",
+      "apiVersion": "2020-01-13-preview",
+      "name": "[concat(parameters('automationAccounts_BCDevEUMTeamCreator_name'), '/AzureRM.Profile')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_BCDevEUMTeamCreator_name'))]"
+      ],
+      "properties": {
+        "contentLink": {}
+      }
+    },
+    {
+      "type": "Microsoft.Automation/automationAccounts/modules",
+      "apiVersion": "2020-01-13-preview",
+      "name": "[concat(parameters('automationAccounts_BCDevEUMTeamCreator_name'), '/AzureRM.Resources')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_BCDevEUMTeamCreator_name'))]"
+      ],
+      "properties": {
+        "contentLink": {}
+      }
+    },
+    {
+      "type": "Microsoft.Automation/automationAccounts/modules",
+      "apiVersion": "2020-01-13-preview",
+      "name": "[concat(parameters('automationAccounts_BCDevEUMTeamCreator_name'), '/AzureRM.Sql')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_BCDevEUMTeamCreator_name'))]"
+      ],
+      "properties": {
+        "contentLink": {}
+      }
+    },
+    {
+      "type": "Microsoft.Automation/automationAccounts/modules",
+      "apiVersion": "2020-01-13-preview",
+      "name": "[concat(parameters('automationAccounts_BCDevEUMTeamCreator_name'), '/AzureRM.Storage')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_BCDevEUMTeamCreator_name'))]"
+      ],
+      "properties": {
+        "contentLink": {}
+      }
+    },
+    {
+      "type": "Microsoft.Automation/automationAccounts/modules",
+      "apiVersion": "2020-01-13-preview",
+      "name": "[concat(parameters('automationAccounts_BCDevEUMTeamCreator_name'), '/ComputerManagementDsc')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_BCDevEUMTeamCreator_name'))]"
+      ],
+      "properties": {
+        "contentLink": {}
+      }
+    },
+    {
+      "type": "Microsoft.Automation/automationAccounts/modules",
+      "apiVersion": "2020-01-13-preview",
+      "name": "[concat(parameters('automationAccounts_BCDevEUMTeamCreator_name'), '/GPRegistryPolicyParser')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_BCDevEUMTeamCreator_name'))]"
+      ],
+      "properties": {
+        "contentLink": {}
+      }
+    },
+    {
+      "type": "Microsoft.Automation/automationAccounts/modules",
+      "apiVersion": "2020-01-13-preview",
+      "name": "[concat(parameters('automationAccounts_BCDevEUMTeamCreator_name'), '/Microsoft.PowerShell.Core')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_BCDevEUMTeamCreator_name'))]"
+      ],
+      "properties": {
+        "contentLink": {}
+      }
+    },
+    {
+      "type": "Microsoft.Automation/automationAccounts/modules",
+      "apiVersion": "2020-01-13-preview",
+      "name": "[concat(parameters('automationAccounts_BCDevEUMTeamCreator_name'), '/Microsoft.PowerShell.Diagnostics')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_BCDevEUMTeamCreator_name'))]"
+      ],
+      "properties": {
+        "contentLink": {}
+      }
+    },
+    {
+      "type": "Microsoft.Automation/automationAccounts/modules",
+      "apiVersion": "2020-01-13-preview",
+      "name": "[concat(parameters('automationAccounts_BCDevEUMTeamCreator_name'), '/Microsoft.PowerShell.Management')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_BCDevEUMTeamCreator_name'))]"
+      ],
+      "properties": {
+        "contentLink": {}
+      }
+    },
+    {
+      "type": "Microsoft.Automation/automationAccounts/modules",
+      "apiVersion": "2020-01-13-preview",
+      "name": "[concat(parameters('automationAccounts_BCDevEUMTeamCreator_name'), '/Microsoft.PowerShell.Security')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_BCDevEUMTeamCreator_name'))]"
+      ],
+      "properties": {
+        "contentLink": {}
+      }
+    },
+    {
+      "type": "Microsoft.Automation/automationAccounts/modules",
+      "apiVersion": "2020-01-13-preview",
+      "name": "[concat(parameters('automationAccounts_BCDevEUMTeamCreator_name'), '/Microsoft.PowerShell.Utility')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_BCDevEUMTeamCreator_name'))]"
+      ],
+      "properties": {
+        "contentLink": {}
+      }
+    },
+    {
+      "type": "Microsoft.Automation/automationAccounts/modules",
+      "apiVersion": "2020-01-13-preview",
+      "name": "[concat(parameters('automationAccounts_BCDevEUMTeamCreator_name'), '/Microsoft.WSMan.Management')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_BCDevEUMTeamCreator_name'))]"
+      ],
+      "properties": {
+        "contentLink": {}
+      }
+    },
+    {
+      "type": "Microsoft.Automation/automationAccounts/modules",
+      "apiVersion": "2020-01-13-preview",
+      "name": "[concat(parameters('automationAccounts_BCDevEUMTeamCreator_name'), '/Orchestrator.AssetManagement.Cmdlets')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_BCDevEUMTeamCreator_name'))]"
+      ],
+      "properties": {
+        "contentLink": {}
+      }
+    },
+    {
+      "type": "Microsoft.Automation/automationAccounts/modules",
+      "apiVersion": "2020-01-13-preview",
+      "name": "[concat(parameters('automationAccounts_BCDevEUMTeamCreator_name'), '/PSDscResources')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_BCDevEUMTeamCreator_name'))]"
+      ],
+      "properties": {
+        "contentLink": {}
+      }
+    },
+    {
+      "type": "Microsoft.Automation/automationAccounts/modules",
+      "apiVersion": "2020-01-13-preview",
+      "name": "[concat(parameters('automationAccounts_BCDevEUMTeamCreator_name'), '/SecurityPolicyDsc')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_BCDevEUMTeamCreator_name'))]"
+      ],
+      "properties": {
+        "contentLink": {}
+      }
+    },
+    {
+      "type": "Microsoft.Automation/automationAccounts/modules",
+      "apiVersion": "2020-01-13-preview",
+      "name": "[concat(parameters('automationAccounts_BCDevEUMTeamCreator_name'), '/StateConfigCompositeResources')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_BCDevEUMTeamCreator_name'))]"
+      ],
+      "properties": {
+        "contentLink": {}
+      }
+    },
+    {
+      "type": "Microsoft.Automation/automationAccounts/modules",
+      "apiVersion": "2020-01-13-preview",
+      "name": "[concat(parameters('automationAccounts_BCDevEUMTeamCreator_name'), '/xDSCDomainjoin')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_BCDevEUMTeamCreator_name'))]"
+      ],
+      "properties": {
+        "contentLink": {}
+      }
+    },
+    {
+      "type": "Microsoft.Automation/automationAccounts/modules",
+      "apiVersion": "2020-01-13-preview",
+      "name": "[concat(parameters('automationAccounts_BCDevEUMTeamCreator_name'), '/xPowerShellExecutionPolicy')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_BCDevEUMTeamCreator_name'))]"
+      ],
+      "properties": {
+        "contentLink": {}
+      }
+    },
+    {
+      "type": "Microsoft.Automation/automationAccounts/modules",
+      "apiVersion": "2020-01-13-preview",
+      "name": "[concat(parameters('automationAccounts_BCDevEUMTeamCreator_name'), '/xRemoteDesktopAdmin')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_BCDevEUMTeamCreator_name'))]"
+      ],
+      "properties": {
+        "contentLink": {}
+      }
+    },
+    {
+      "type": "Microsoft.Automation/automationAccounts/runbooks",
+      "apiVersion": "2019-06-01",
+      "name": "[concat(parameters('automationAccounts_BCDevEUMTeamCreator_name'), '/CreateSite')]",
+      "location": "eastus",
+      "dependsOn": [
+        "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_BCDevEUMTeamCreator_name'))]"
+      ],
+      "properties": {
+        "runbookType": "PowerShell",
+        "logVerbose": false,
+        "logProgress": false,
+        "logActivityTrace": 0
+      }
+    },
+    {
+      "type": "Microsoft.Automation/automationAccounts/runbooks",
+      "apiVersion": "2019-06-01",
+      "name": "[concat(parameters('automationAccounts_BCDevEUMTeamCreator_name'), '/CreateSite-Customizations')]",
+      "location": "eastus",
+      "dependsOn": [
+        "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_BCDevEUMTeamCreator_name'))]"
+      ],
+      "properties": {
+        "runbookType": "PowerShell",
+        "logVerbose": false,
+        "logProgress": false,
+        "logActivityTrace": 0
+      }
+    },
+    {
+      "type": "Microsoft.Automation/automationAccounts/runbooks",
+      "apiVersion": "2019-06-01",
+      "name": "[concat(parameters('automationAccounts_BCDevEUMTeamCreator_name'), '/EUMSites_Helper')]",
+      "location": "eastus",
+      "dependsOn": [
+        "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_BCDevEUMTeamCreator_name'))]"
+      ],
+      "properties": {
+        "runbookType": "PowerShell",
+        "logVerbose": false,
+        "logProgress": false,
+        "logActivityTrace": 0
+      }
+    },
+    {
+      "type": "Microsoft.Automation/automationAccounts/runbooks",
+      "apiVersion": "2019-06-01",
+      "name": "[concat(parameters('automationAccounts_BCDevEUMTeamCreator_name'), '/UpdateSitesList')]",
+      "location": "eastus",
+      "dependsOn": [
+        "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccounts_BCDevEUMTeamCreator_name'))]"
+      ],
+      "properties": {
+        "runbookType": "PowerShell",
+        "logVerbose": false,
+        "logProgress": false,
+        "logActivityTrace": 0
+      }
+    }
+  ]
+}

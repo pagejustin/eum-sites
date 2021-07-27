@@ -3,3 +3,8 @@
 ################################################################################
 
 /.vs/slnx.sqlite
+ARMTemplate\config.json
+Development\ARMTemplate\config.json
+Development\ARMTemplate\template.json
+ARMTemplateGenerator.log
+ARMTemplateDeployer.log
